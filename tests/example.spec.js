@@ -1,13 +1,15 @@
 import { test, expect } from '@playwright/test';
+import { urlOne} from './utils/constants/weblink';
+import { user } from './utils/constants/accounts';
+import { login } from './utils/functions/login';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+
+test('Test Case 1', async ({ page }) => {
+  await login(page, urlOne, user);
 });
 
-test('get started link', async ({ page }) => {
+test('Test Case 2', async ({ page }) => {
   await page.goto('https://playwright.dev/');
 
   // Click the get started link.
