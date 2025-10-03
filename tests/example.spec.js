@@ -3,10 +3,21 @@ import { urlOne} from './utils/constants/weblink';
 import { user } from './utils/constants/accounts';
 import { login } from './utils/functions/login';
 
+test.beforeEach(async ({ page }) => {
+  console.log(`Starting ${test.info().title}`);
+  await login(page, urlOne, user);
 
+});
+
+test.afterEach(async ({ page }) => {
+  console.log(`Finished ${test.info().title} with status ${test.info().status}`);
+
+  if (test.info().status !== test.info().expectedStatus)
+    console.log(`Did not run as expected, ended up at ${page.url()}`);
+});
 
 test('Test Case 1', async ({ page }) => {
-  await login(page, urlOne, user);
+  console.log('Running Test Case 1');
 });
 
 test('Test Case 2', async ({ page }) => {
