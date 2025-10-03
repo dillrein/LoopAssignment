@@ -16,6 +16,19 @@ class ProjectsPage {
     this.getMarketingCampaignHeader = page.locator('h1', { hasText: 'Marketing Campaign' });
     */
 
+    this.getColumnToDo = page.locator(
+      '#root > div > div.flex-1.flex.flex-col.bg-gray-100 > main > div > div > div:nth-child(1)',
+       { hasText: 'To Do' });
+    
+       this.getColumnInProgress = page.locator(
+        '#root > div > div.flex-1.flex.flex-col.bg-gray-100 > main > div > div > div:nth-child(2)',
+       { hasText: 'In Progress' });
+
+    this.getColumnReview = page.locator(
+      '#root > div > div.flex-1.flex.flex-col.bg-gray-100 > main > div > div > div:nth-child(3)',
+       { hasText: 'Review' });    
+    
+    
     //this.getCardHeader = page.locator('h3' )
 
     //this.getCardTags = page.locator('div > span').toContainText(column, tag);

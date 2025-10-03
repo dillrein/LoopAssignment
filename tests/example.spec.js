@@ -1,37 +1,39 @@
-import { test, expect } from '@playwright/test';
-import { urlOne} from './utils/constants/weblink';
-import { user } from './utils/constants/accounts';
-import { login } from './utils/functions/login';
-const { ProjectsPage } =require('./utils/models/ProjectsPageModel');
-
-
-test.beforeEach(async ({ page }) => {
-  console.log(`Starting ${test.info().title}`);
-  await login(page, urlOne, user);
-
-});
-
-test.afterEach(async ({ page }) => {
-  console.log(`Finished ${test.info().title} with status ${test.info().status}`);
-
-  if (test.info().status !== test.info().expectedStatus)
-    console.log(`Did not run as expected, ended up at ${page.url()}`);
-});
-
-test('Test Case 1', async ({ page }) => {
-  const projectsPage = new ProjectsPage(page);
-  
-  await projectsPage.goToWebApp();
-
-  await expect(projectsPage.getWebAppHeader).toBeVisible();
-
-  //await expect(projectsPage.getCard('To Do', 'Implement user authentication')).toBeVisible();
+const { test, expect } = require('@playwright/test');
+const testData = require('./utils/testData/testData.json');
+const { login } = require('./utils/functions/login');
 
 
 
-  
-});
+// Reusable login function
+// async function login(page, email, password) {
+//   await page.goto('https://animated-gingersnap-8cf7f2.netlify.app/');
+//   await page.fill('input[name="email"]', email);
+//   await page.fill('input[name="password"]', password);
+//   await page.click('button[type="submit"]');
+//   // Adjust this check depending on redirect behavior
+//   await expect(page).toHaveURL(/dashboard/i);
+// }
 
-test('Test Case 2', async ({ page }) => {
-  console.log('Test Case 2')
-});
+// Data-driven tests
+for (const data of testData) {
+  test.describe(`Scenario: ${data.name}`, () => {
+    test(`should validate task in ${data.navigation}`, async ({ page }) => {
+      // Step 1: Login
+      await login(page, data.credentials.email, data.credentials.password);
+
+      // Step 2: Navigate to section
+      await page.click(`text=${data.navigation}`);
+
+      // Step 3: Verify task exists in correct column
+      const taskLocator = page.locator(
+        `.column:has-text("${data.expectedTask.column}") >> text=${data.expectedTask.title}`
+      );
+      await expect(taskLocator).toBeVisible();
+
+      // Step 4: Verify tags
+      for (const tag of data.expectedTask.tags) {
+        await expect(page.locator(`.tag:has-text("${tag}")`)).toBeVisible();
+      }
+    });
+  });
+}
