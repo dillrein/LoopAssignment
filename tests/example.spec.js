@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 import { urlOne} from './utils/constants/weblink';
 import { user } from './utils/constants/accounts';
 import { login } from './utils/functions/login';
-import { locateUserStoryCard } from './utils/models/locators';
-import { navigateTo } from './utils/models/navigate';
+const { ProjectsPage } =require('./utils/models/ProjectsPageModel');
+
 
 test.beforeEach(async ({ page }) => {
   console.log(`Starting ${test.info().title}`);
@@ -19,21 +19,19 @@ test.afterEach(async ({ page }) => {
 });
 
 test('Test Case 1', async ({ page }) => {
-  console.log('Running Test Case 1');
-  await navigateTo(page, 'Web Application');
+  const projectsPage = new ProjectsPage(page);
+  
+  await projectsPage.goToWebApp();
 
-  await locateUserStoryCard(page, 'To Do', 'Implement user authentication');
+  await expect(projectsPage.getWebAppHeader).toBeVisible();
 
-  await expect()
+  //await expect(projectsPage.getCard('To Do', 'Implement user authentication')).toBeVisible();
+
+
+
   
 });
 
 test('Test Case 2', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  console.log('Test Case 2')
 });

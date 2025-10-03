@@ -4,24 +4,29 @@ class ProjectsPage {
    */
   constructor(page) {
     this.page = page;
-    this.getAppButton = page.getByRole('button', { name: title});
-    this.gettingAppHeader = page.locator('h1', { hasText: title });
-    this.getCardTags = page.locator('div > span').toContainText(column, tag)
-    this.pomLink = page.locator('li', {
-      hasText: 'Playwright Test',
-    }).locator('a', {
-      hasText: 'Page Object Model',
-    });
-    this.tocList = page.locator('article div.markdown ul > li > a');
-  }
-  async getApp(title) {
-    await this.getAppButton(title).first().click();
-    await expect(this.gettingAppHeader(title)).toBeVisible();
+    this.getWebAppButton = page.getByRole('button', { name: 'Web Application'});
+    this.getWebAppHeader = page.locator('h1', { hasText: 'Web Application' });
+
+    this.getMobileAppButton = page.getByRole('button', { name: 'Mobile Application'});
+    this.getMobileAppHeader = page.locator('h1', { hasText: 'Mobile Application' });
+
+    /*
+    //left out for future test development needs
+    this.getMarketingCampaignButton = page.getByRole('button', { name: 'Marketing Campaign'});
+    this.getMarketingCampaignHeader = page.locator('h1', { hasText: 'Marketing Campaign' });
+    */
+
+    //this.getCardHeader = page.locator('h3' )
+
+    //this.getCardTags = page.locator('div > span').toContainText(column, tag);
+    //this.getCardHeader = page.locator('h2 > h3').toContainText(column, card);
   }
 
-  async getTags(column, tag) {
-    await expect(this.getCardTags(column, tag)).toBeVisible();
+  async goToWebApp() {
+    await this.getWebAppButton.click();
   }
+
+  
 
   
 }
