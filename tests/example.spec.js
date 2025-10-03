@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { urlOne} from './utils/constants/weblink';
 import { user } from './utils/constants/accounts';
 import { login } from './utils/functions/login';
+import { locateUserStoryCard } from './utils/models/locators';
+import { navigateTo } from './utils/models/navigate';
 
 test.beforeEach(async ({ page }) => {
   console.log(`Starting ${test.info().title}`);
@@ -18,6 +20,12 @@ test.afterEach(async ({ page }) => {
 
 test('Test Case 1', async ({ page }) => {
   console.log('Running Test Case 1');
+  await navigateTo(page, 'Web Application');
+
+  await locateUserStoryCard(page, 'To Do', 'Implement user authentication');
+
+  await expect()
+  
 });
 
 test('Test Case 2', async ({ page }) => {
