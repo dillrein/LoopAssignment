@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 const testData = require("./utils/testData/testData.json");
 const { login } = require("./utils/functions/login");
 
-// Iterate over each data set in the JSON file
+// Iterate over each data set in the JSON file. Edit testData.json to add or alter test scenarios.
 for (const data of testData) {
   test.describe(`Scenario: ${data.name}`, () => {
     test(`should validate task in ${data.navigation}`, async ({ page }) => {
@@ -13,6 +13,7 @@ for (const data of testData) {
       await page.getByRole("button", { name: data.navigation }).click();
 
       // Step 3: Verify task exists in correct column
+      //Find column by its name, then find task is within the column
       const taskLocator =
         page.locator(
           `h3:below(:text("${data.expectedTask.column}")):has-text("${data.expectedTask.title}")`
